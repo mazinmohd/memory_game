@@ -1,0 +1,317 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffd1dc, #e0c3fc);
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.game-info {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.game-info > div {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.card {
+    width: 100%;
+    aspect-ratio: 3/4;
+    perspective: 1000px;
+    cursor: pointer;
+    max-width: 120px;
+    margin: 0 auto;
+    animation: cardAppear 0.5s ease-out;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    border-radius: 8px;
+    transform: rotateY(180deg);
+    opacity: 0.99;
+}
+
+.card-front {
+    background: linear-gradient(45deg, #ff99c8, #fcb1b1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #fff;
+    transform: rotateY(0deg);
+}
+
+.card-back {
+    background: linear-gradient(45deg, #fff1f6, #ffffff);
+    border: 2px solid #ff99c8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Only apply hover effect to unmatched and unflipped cards */
+.card:not(.matched):not(.flipped):hover .card-inner {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+/* Ensure flipped cards maintain their state without hover effect */
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Keep matched cards in their flipped state without hover */
+.card.matched .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card.matched {
+    cursor: default;
+}
+
+.card.matched .card-back {
+    background: linear-gradient(45deg, #c1fba4, #9fffd9);
+    animation: pulse 1s ease-in-out;
+    box-shadow: 0 0 15px rgba(193, 251, 164, 0.5);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.game-info button {
+    padding: 10px 20px;
+    margin: 0 8px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#pauseBtn {
+    background: linear-gradient(45deg, #ff99c8, #ff6b95);
+}
+
+#restartBtn {
+    background: linear-gradient(45deg, #9fffd9, #90e0c5);
+}
+
+.game-info button:hover {
+    transform: scale(1.05);
+}
+
+/* Add styles for paused state */
+.game-board.paused .card {
+    pointer-events: none;
+}
+
+/* Add modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #fff5f7, #fff);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.modal-content h2 {
+    color: #ff6b95;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content p {
+    color: #6a4c93;
+    margin: 10px 0;
+}
+
+#playAgainBtn {
+    padding: 8px 16px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(45deg, #9fffd9, #90e0c5);
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+}
+
+#playAgainBtn:hover {
+    transform: scale(1.05);
+}
+
+/* Leaderboard button style */
+#leaderboardBtn {
+    background: linear-gradient(45deg, #ffd1dc, #ff9ecd);
+}
+
+/* Leaderboard styles */
+.leaderboard {
+    min-width: 300px;
+}
+
+.leaderboard table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard th,
+.leaderboard td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ffd1dc;
+}
+
+.leaderboard th {
+    background: linear-gradient(45deg, #ff99c8, #ff6b95);
+    color: white;
+    padding: 12px;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard td {
+    padding: 12px;
+    color: #6a4c93;
+}
+
+.leaderboard tr:nth-child(even) {
+    background: rgba(255, 209, 220, 0.1);
+}
+
+.leaderboard tr:hover {
+    background: rgba(255, 209, 220, 0.2);
+}
+
+#closeLeaderboard {
+    padding: 8px 16px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(45deg, #ff99c8, #ff6b95);
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+}
+
+#closeLeaderboard:hover {
+    transform: scale(1.05);
+}
+
+/* Game title styles */
+.game-title {
+    text-align: center;
+    margin-bottom: 30px;
+    animation: fadeIn 1s ease-in;
+}
+
+.game-title h1 {
+    font-size: 3.5rem;
+    color: #6a4c93;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2),
+                 0 0 20px rgba(255, 255, 255, 0.6);
+    margin-bottom: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #ff6b95;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    font-style: italic;
+}
+
+/* Add fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add subtle animation to cards */
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

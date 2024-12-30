@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="style.css">  
+</head>
+<body>
+    <div class="container">
+        <div class="game-title">
+            <h1>Memory Match</h1>
+            <p class="subtitle">Test Your Memory Skills</p>
+        </div>
+        <div class="game-info">
+            <div class="timer">Time: <span id="time">0:00</span></div>
+            <div class="moves">Moves: <span id="moves">0</span></div>
+            <button id="pauseBtn">Pause</button>
+            <button id="restartBtn">Restart</button>
+            <button id="leaderboardBtn">Leaderboard</button>
+        </div>
+        
+        <div class="game-board">
+            <div class="card" data-card="1">
+                <div class="card-inner">
+                    <div class="card-front"></div>
+                    <div class="card-back">🐶</div>
+                </div>
+            </div>
+            <div class="card" data-card="1">
+                <div class="card-inner">
+                    <div class="card-front"></div>
+                    <div class="card-back">🐶</div>
+                </div>
+            </div>
+            <div class="card" data-card="2">
+                <div class="card-inner">
+                    <div class="card-front"></div>
+                    <div class="card-back">🐱</div>
+                </div>
+            </div>
+            <div class="card" data-card="2">
+                <div class="card-inner">
+                    <div class="card-front"></div>
+                    <div class="card-back">🐱</div>
+                </div>
+            </div>
+            <div class="card" data-card="3">
+                <div class="card-inner">
+                    <div class="card-front"></div>
+                    <div class="card-back">🐼</div>
+                </div>
+            </div>
+            <div class="card" data-card="3">
+                <div class="card-inner">
+                    <div class="card-front"></div>
+                    <div class="card-back">🐼</div>
+                </div>
+            </div>
+            <div class="card" data-card="4">
+                <div class="card-inner">
+                    <div class="card-front"></div>
+                    <div class="card-back">🦊</div>
+                </div>
+            </div>
+            <div class="card" data-card="4">
+                <div class="card-inner">
+                    <div class="card-front"></div>
+                    <div class="card-back">🦊</div>
+                </div>
+            </div>
+        </div>
+        <div id="winModal" class="modal">
+            <div class="modal-content">
+                <h2>Congratulations! 🎉</h2>
+                <p>You won in <span id="finalMoves">0</span> moves</p>
+                <p>Time: <span id="finalTime">0:00</span></p>
+                <button id="playAgainBtn">Play Again</button>
+            </div>
+        </div>
+        <div id="leaderboardModal" class="modal">
+            <div class="modal-content leaderboard">
+                <h2>🏆 Top Scores 🏆</h2>
+                <table id="leaderboardTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Moves</th>
+                            <th>Time</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                    </tbody>
+                </table>
+                <button id="closeLeaderboard">Close</button>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
